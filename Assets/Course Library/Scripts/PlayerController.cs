@@ -6,9 +6,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody _playerRB;
-    public int jumpforce = 100;
-    public float gravityModifier;
-    public bool isGrounded = true;
+    private int jumpforce = 10;
+    private float gravityModifier = 2;
+    private bool isGrounded = true;
 
     // Start is called before the first frame update
     void Start()
