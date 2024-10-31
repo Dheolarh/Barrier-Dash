@@ -6,7 +6,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public GameObject barrierPrefab;
-    private Vector3 spawnPoint = new Vector3(8.3f, 0, 0);
+    private Vector3 spawnPoint = new Vector3(21.3f, 0, 0);
     public float xRange = 3.0f;
     // Start is called before the first frame update
     void Start()

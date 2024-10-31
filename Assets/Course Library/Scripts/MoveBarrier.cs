@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveBarrier : MonoBehaviour
 {
-    public float barrierSpeed = 5f;
+    private float barrierSpeed = 8f;
 
     // Start is called before the first frame update
     void Start()
