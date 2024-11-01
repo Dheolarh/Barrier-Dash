@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public ParticleSystem _explosionParticle;
+    public ParticleSystem _dirtSplatter;
     private Rigidbody _playerRB;
-    private int jumpforce = 10;
-    private float gravityModifier = 2;
+    private Animator _playerAN;
+    private int jumpForce = 400;
+    private float gravityModifier = 1;
     private bool isGrounded = true;
     public bool isGameOver = false;
 
@@ -15,16 +18,19 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _playerRB = GetComponent<Rigidbody>();
+        _playerAN = GetComponent<Animator>();
         Physics.gravity *= gravityModifier;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isGameOver)
         {
-            _playerRB.AddForce(Vector3.up * jumpforce, ForceMode.Impulse);
+            _playerRB.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
+            _playerAN.SetTrigger("Jump_trig");
+            _dirtSplatter.Stop();
         }
     }
 
@@ -33,11 +39,19 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            if (!isGameOver)
+            {
+                _dirtSplatter.Play();
+            }
         }        
         if (other.gameObject.CompareTag("Barrier"))
         {
             isGameOver = true;
             Debug.Log("Gameover");
+            _playerAN.SetBool("Death_b", true);
+            _playerAN.SetInteger("DeathType_int", 1);
+            _explosionParticle.Play();
+            _dirtSplatter.Stop();
         }
     }
 }
