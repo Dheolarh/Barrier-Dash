@@ -6,6 +6,9 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public ParticleSystem _explosionParticle;
+    private AudioSource _soundEffects;
+    public AudioClip jumpSound;
+    public AudioClip crashSound;
     public ParticleSystem _dirtSplatter;
     private Rigidbody _playerRB;
     private Animator _playerAN;
@@ -20,6 +23,7 @@ public class PlayerController : MonoBehaviour
         _playerRB = GetComponent<Rigidbody>();
         _playerAN = GetComponent<Animator>();
         Physics.gravity *= gravityModifier;
+        _soundEffects = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -31,6 +35,7 @@ public class PlayerController : MonoBehaviour
             isGrounded = false;
             _playerAN.SetTrigger("Jump_trig");
             _dirtSplatter.Stop();
+            _soundEffects.PlayOneShot(jumpSound, 1);
         }
     }
 
@@ -52,6 +57,7 @@ public class PlayerController : MonoBehaviour
             _playerAN.SetInteger("DeathType_int", 1);
             _explosionParticle.Play();
             _dirtSplatter.Stop();
+            _soundEffects.PlayOneShot(crashSound, 1);
         }
     }
 }
